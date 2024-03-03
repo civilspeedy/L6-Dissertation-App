@@ -1,10 +1,11 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import Messages from './Components/Messages';
 import CustomTextInput from './Components/Text Input';
 import { createThemeTable, readTheme } from './Database/Manipulation';
+import { impactAsync } from 'expo-haptics';
 
 createThemeTable();
 export default function App() {
@@ -35,6 +36,18 @@ export default function App() {
       setActiveTheme(colourJson.lightColours);
     }
   }, [themeSate]);
+
+  const handleMessageSend = () => {
+    impactAsync();
+    if (userInput.trim() == '') {
+      Alert.alert('Message is blank.');
+    } else if (userInput.length >= 256) {
+      Alert.alert('Message is too long.');
+    } else {
+      console.log('characters: ', userInput.length);
+      setSend(true);
+    }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: activeTheme.primary }]}>
@@ -84,9 +97,7 @@ export default function App() {
             styles.sendButton,
             { backgroundColor: activeTheme.secondary },
           ]}
-          onPress={() => {
-            setSend(true);
-          }}>
+          onPress={() => handleMessageSend()}>
           <Feather
             name='send'
             size={45}
