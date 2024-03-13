@@ -6,6 +6,7 @@ import Messages from './Components/Messages';
 import CustomTextInput from './Components/Text Input';
 import { createThemeTable, readTheme } from './Database/Manipulation';
 import { impactAsync } from 'expo-haptics';
+import Location from './Components/Location';
 
 createThemeTable();
 export default function App() {
@@ -15,7 +16,7 @@ export default function App() {
   const [send, setSend] = useState(false);
   const [themeSate, setThemeState] = useState(true);
   const [activeTheme, setActiveTheme] = useState(colourJson.darkColours);
-
+  Location();
   const getTheme = async () => {
     try {
       const gottenTheme = await readTheme();

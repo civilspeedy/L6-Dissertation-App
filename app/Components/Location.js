@@ -6,6 +6,7 @@ import {
 
 export default function Location() {
   const [location, setLocation] = useState(null);
+  // set up an await for location for http request
 
   useEffect(() => {
     const getLocation = async () => {
