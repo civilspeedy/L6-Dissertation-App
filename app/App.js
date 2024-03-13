@@ -16,7 +16,9 @@ export default function App() {
   const [send, setSend] = useState(false);
   const [themeSate, setThemeState] = useState(true);
   const [activeTheme, setActiveTheme] = useState(colourJson.darkColours);
+
   Location();
+
   const getTheme = async () => {
     try {
       const gottenTheme = await readTheme();

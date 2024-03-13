@@ -5,7 +5,7 @@ import {
 } from 'expo-location';
 
 export default function Location() {
-  const [location, setLocation] = useState(null);
+  const [locNonJson, setLocNonJson] = useState(null);
   // set up an await for location for http request
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function Location() {
 
       try {
         const currentPosition = await getCurrentPositionAsync({});
-        setLocation(JSON.stringify(currentPosition));
+        setLocNonJson(currentPosition);
       } catch (error) {
         console.error('Error getting location:', error);
       }
@@ -26,4 +26,12 @@ export default function Location() {
 
     getLocation();
   }, []);
+
+  const returnLocation = () => {
+    if (locNonJson) {
+      return locNonJson;
+    } else {
+      return false;
+    }
+  };
 }
