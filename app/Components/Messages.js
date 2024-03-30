@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import MessageBubble from './MessageBubble';
-import { giveTestMessage } from './Speaker';
+import { sendMessage } from './Speaker';
 
 export default function Messages({
   currentUserMessage,
@@ -24,6 +24,8 @@ export default function Messages({
 
   const userMessagesArray = [];
   const speakerMessagesArray = [];
+
+  sendMessage();
 
   const scrollRef = useRef(null);
 

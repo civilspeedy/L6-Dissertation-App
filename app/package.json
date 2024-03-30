@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/image-utils": "^0.4.1",
     "@expo/vector-icons": "^14.0.0",
+    "axios": "^1.6.8",
     "expo": "^50.0.13",
     "expo-haptics": "^12.8.1",
     "expo-location": "^16.5.5",
