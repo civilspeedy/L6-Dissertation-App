@@ -15,7 +15,6 @@ export default function Messages({
   send,
   setSend,
   setUserInput,
-  activeTheme,
 }) {
   const [userMessage, setUserMsg] = useState('');
   const [speakerMessage, setSpeakerMsg] = useState('');
@@ -25,7 +24,7 @@ export default function Messages({
   const userMessagesArray = [];
   const speakerMessagesArray = [];
 
-  sendMessage();
+  //sendMessage(); // THIS CALLS EVERY TIME I TYPE
 
   const scrollRef = useRef(null);
 

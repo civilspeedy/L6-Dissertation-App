@@ -4,11 +4,18 @@ import { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import Messages from './Components/Messages';
 import CustomTextInput from './Components/Text Input';
-import { createThemeTable, readTheme } from './Database/Manipulation';
+import {
+  createThemeTable,
+  firstLaunch,
+  isFirstLaunch,
+  readTheme,
+} from './Database/Manipulation';
 import { impactAsync } from 'expo-haptics';
 import Location from './Components/Location';
+import WhatsYourName from './Components/WhatsYourName';
 
 createThemeTable();
+firstLaunch();
 export default function App() {
   const colourJson = require('./assets/json/theme.json');
 
@@ -16,6 +23,7 @@ export default function App() {
   const [send, setSend] = useState(false);
   const [themeSate, setThemeState] = useState(true);
   const [activeTheme, setActiveTheme] = useState(colourJson.darkColours);
+  const [launched, setLaunched] = useState(true);
 
   Location();
 
@@ -39,6 +47,10 @@ export default function App() {
       setActiveTheme(colourJson.lightColours);
     }
   }, [themeSate]);
+
+  useEffect(() => {
+    console.log('launched:', launched);
+  }, [launched]);
 
   const handleMessageSend = () => {
     impactAsync();
@@ -81,6 +93,7 @@ export default function App() {
           )}
         </Pressable>
       </View>
+      <WhatsYourName activeTheme={activeTheme} />
       <Messages
         send={send}
         setSend={setSend}

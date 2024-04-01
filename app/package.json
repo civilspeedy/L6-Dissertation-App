@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/image-utils": "^0.4.1",
     "@expo/vector-icons": "^14.0.0",
+    "@react-native-async-storage/async-storage": "^1.23.1",
     "axios": "^1.6.8",
     "expo": "^50.0.13",
     "expo-haptics": "^12.8.1",

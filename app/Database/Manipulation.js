@@ -1,4 +1,5 @@
 import * as db from 'expo-sqlite';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const file = db.openDatabase('data.db');
 
@@ -42,4 +43,26 @@ export async function readTheme() {
       );
     });
   });
+}
+
+export async function firstLaunch() {
+  try {
+    await AsyncStorage.setItem('firstLaunch', 'true');
+  } catch (e) {
+    console.error('err in firstLaunch', e);
+  }
+}
+
+export async function isFirstLaunch(setLaunched) {
+  try {
+    const firstLaunch = await AsyncStorage.getItem('firstLaunch');
+    if (firstLaunch == null) {
+      // first time
+      return true;
+    } else {
+      // not first time
+    }
+  } catch (e) {
+    console.error('err in isFirstLaunch ', e);
+  }
 }
