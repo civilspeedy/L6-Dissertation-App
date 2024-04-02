@@ -24,6 +24,7 @@ export default function App() {
   const [themeSate, setThemeState] = useState(true);
   const [activeTheme, setActiveTheme] = useState(colourJson.darkColours);
   const [launched, setLaunched] = useState(true);
+  const [state, setState] = useState(false);
 
   Location();
 
@@ -93,7 +94,10 @@ export default function App() {
           )}
         </Pressable>
       </View>
-      <WhatsYourName activeTheme={activeTheme} />
+      <Pressable
+        onPress={() => setState(!state)}
+        style={{ backgroundColor: 'blue', width: 10, height: 10 }}
+      />
       <Messages
         send={send}
         setSend={setSend}
@@ -121,6 +125,11 @@ export default function App() {
           />
         </Pressable>
       </View>
+      <WhatsYourName
+        activeTheme={activeTheme}
+        state={state}
+        setState={setState}
+      />
     </View>
   );
 }
