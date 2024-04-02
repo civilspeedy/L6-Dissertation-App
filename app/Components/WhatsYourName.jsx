@@ -1,24 +1,32 @@
 import { useState } from 'react';
-import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View, Modal } from 'react-native';
 import CustomTextInput from './Text Input';
 import { BlurView } from 'expo-blur';
 
 export default function WhatsYourName({ activeTheme, state, setState }) {
   const [name, setName] = useState('');
+  const [displayState, setDisplayState] = useState(false);
+
+  const checkNameInput = () => {
+    console.log('button pressed');
+    if (name == '') {
+      Alert.alert(`Please enter a name. It doesn't have to be your real one.`);
+    } else if (name.length >= 32) {
+      Alert.alert('Sorry but this is too long.');
+    } else {
+      console.log('in else statement');
+      setDisplayState(true);
+      setTimeout(() => {
+        setState(false);
+      }, 700);
+    }
+  };
 
   return (
     <Modal
       transparent={true}
       visible={state}
       animationType='fade'
-      onRequestClose={() => setState(false)}
       style={[styles.modalContainer]}>
       <BlurView
         style={styles.blurView}
@@ -29,19 +37,36 @@ export default function WhatsYourName({ activeTheme, state, setState }) {
             styles.modalItself,
             { backgroundColor: activeTheme.modalColour },
           ]}>
-          <Text style={styles.titleText}>Before we start...</Text>
-          <Text style={styles.questionText}>
-            Why don't you tell me your name?
-          </Text>
-          <View style={styles.inputContainer}>
-            <CustomTextInput activeTheme={activeTheme} />
-          </View>
-          {/*Needs disclaimer here*/}
-          <Pressable
-            style={styles.closeButton}
-            onPress={() => setState(!state)}>
-            <Text>Close Modal</Text>
-          </Pressable>
+          {displayState ? (
+            <View>
+              <Text>Hello {name}!</Text>
+            </View>
+          ) : (
+            <View style={styles.subContainer}>
+              <Text style={styles.titleText}>Before we start...</Text>
+              <Text style={styles.questionText}>
+                Why don't you tell me your name?
+              </Text>
+
+              <View style={styles.inputContainer}>
+                <CustomTextInput
+                  activeTheme={activeTheme}
+                  userInput={name}
+                  setUserInput={setName}
+                />
+              </View>
+
+              <Text style={styles.smallText}>
+                Use of your name is purley to provide a more natural dialogue
+                and is not used to identify you in any way.
+              </Text>
+              <Pressable
+                style={styles.submitButton}
+                onPress={() => checkNameInput()}>
+                <Text>Submit Name</Text>
+              </Pressable>
+            </View>
+          )}
         </View>
       </BlurView>
     </Modal>
@@ -53,13 +78,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '80%',
-    height: '50%',
+    height: '40%',
     alignSelf: 'center',
     marginTop: '50%',
     borderRadius: 50,
   },
-  closeButton: {
-    backgroundColor: 'red',
+  submitButton: {
+    backgroundColor: 'lightgreen',
+    padding: 10,
+    borderRadius: 50,
   },
   modalContainer: {
     flex: 1,
@@ -72,6 +99,7 @@ const styles = StyleSheet.create({
     flex: 0.1,
     width: '75%',
     height: 10,
+    backgroundColor: 'magenta',
   },
   blurView: {
     flex: 1,
@@ -81,8 +109,23 @@ const styles = StyleSheet.create({
     textAlign: 'auto',
     position: 'absolute',
     top: 20,
+    backgroundColor: 'yellow',
   },
   questionText: {
+    backgroundColor: 'orange',
     margin: 10,
+    fontSize: 20,
+  },
+  smallText: {
+    backgroundColor: 'red',
+    fontSize: 20,
+    margin: 10,
+    textAlign: 'center',
+  },
+  subContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
