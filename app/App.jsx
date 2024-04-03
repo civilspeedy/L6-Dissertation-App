@@ -32,10 +32,6 @@ export default function App() {
     const fetchTheme = async () => {
       const fetchedTheme = await getTheme();
       setThemeState(fetchedTheme);
-      console.log('theme is:', fetchedTheme);
-      if (fetchedTheme == null) {
-        setTheme(colourJson.darkColours);
-      }
     };
     const fetchUserName = async () => {
       const fetchedName = await getUserName();
@@ -47,16 +43,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (themeSate) {
-      setActiveTheme(colourJson.darkColours);
-      setTheme(colourJson.darkColours);
-    } else {
-      setActiveTheme(colourJson.lightColours);
-      setTheme(colourJson.lightColours);
-    }
-  }, [themeSate]);
-
-  useEffect(() => {
     console.log('name type:', typeof name);
     console.log('name:', name);
     if (name == null) {
@@ -65,6 +51,14 @@ export default function App() {
       setAskName(false);
     }
   }, [name]);
+
+  useEffect(() => {
+    if (themeSate) {
+      setActiveTheme(colourJson.darkColours);
+    } else {
+      setActiveTheme(colourJson.lightColours);
+    }
+  }, [themeSate]);
 
   const handleMessageSend = () => {
     impactAsync();
@@ -83,7 +77,11 @@ export default function App() {
       <StatusBar style='auto' />
       <View style={styles.topArea}>
         <Pressable
-          onPress={() => setThemeState(!themeSate)}
+          onPress={() => {
+            const newState = !themeSate;
+            setThemeState(newState);
+            setTheme(newState);
+          }}
           style={[
             styles.themeButton,
             { backgroundColor: activeTheme.secondary },
