@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View, Modal } from 'react-native';
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  LayoutAnimation,
+} from 'react-native';
 import CustomTextInput from './Text Input';
 import { BlurView } from 'expo-blur';
 import { getUserName, setUserName } from '../Database/Manipulation';
@@ -24,6 +32,7 @@ export default function WhatsYourName({
       setUserName(name);
       setDisplayState(true);
       setTimeout(() => {
+        LayoutAnimation.linear();
         setState(false);
       }, 700);
       getUserName(outsideSetName);

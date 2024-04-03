@@ -7,15 +7,14 @@ import CustomTextInput from './Components/Text Input';
 import {
   createThemeTable,
   firstLaunch,
+  getTheme,
   getUserName,
   readTheme,
+  setTheme,
 } from './Database/Manipulation';
 import { impactAsync } from 'expo-haptics';
 import Location from './Components/Location';
 import WhatsYourName from './Components/WhatsYourName';
-
-createThemeTable();
-firstLaunch();
 
 export default function App() {
   const colourJson = require('./assets/json/theme.json');
@@ -24,39 +23,48 @@ export default function App() {
   const [send, setSend] = useState(false);
   const [themeSate, setThemeState] = useState(true);
   const [activeTheme, setActiveTheme] = useState(colourJson.darkColours);
-  const [state, setState] = useState(false);
-  const [name, setName] = useState('');
+  const [askName, setAskName] = useState(false);
+  const [name, setName] = useState(null);
 
   Location();
 
-  const getTheme = async () => {
-    try {
-      const gottenTheme = await readTheme();
-      setThemeState(gottenTheme);
-    } catch (e) {
-      console.error('err in getTheme', e);
-    }
-  };
-
   useEffect(() => {
-    getTheme();
+    const fetchTheme = async () => {
+      const fetchedTheme = await getTheme();
+      setThemeState(fetchedTheme);
+      console.log('theme is:', fetchedTheme);
+      if (fetchedTheme == null) {
+        setTheme(colourJson.darkColours);
+      }
+    };
+    const fetchUserName = async () => {
+      const fetchedName = await getUserName();
+      setName(fetchedName);
+    };
+
+    fetchUserName();
+    fetchTheme();
   }, []);
 
   useEffect(() => {
     if (themeSate) {
       setActiveTheme(colourJson.darkColours);
+      setTheme(colourJson.darkColours);
     } else {
       setActiveTheme(colourJson.lightColours);
+      setTheme(colourJson.lightColours);
     }
   }, [themeSate]);
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      const fetchedName = await getUserName();
-      setName(fetchedName);
-    };
-    fetchUserName();
-  }, []);
+    console.log('name type:', typeof name);
+    console.log('name:', name);
+    if (name == null) {
+      setAskName(true);
+    } else {
+      setAskName(false);
+    }
+  }, [name]);
 
   const handleMessageSend = () => {
     impactAsync();
@@ -99,10 +107,6 @@ export default function App() {
           )}
         </Pressable>
       </View>
-      <Pressable
-        onPress={() => setState(!state)}
-        style={{ backgroundColor: 'blue', width: 10, height: 10 }}
-      />
       <Messages
         send={send}
         setSend={setSend}
@@ -132,8 +136,8 @@ export default function App() {
       </View>
       <WhatsYourName
         activeTheme={activeTheme}
-        state={state}
-        setState={setState}
+        state={askName}
+        setState={setAskName}
         setName={setName}
       />
     </View>

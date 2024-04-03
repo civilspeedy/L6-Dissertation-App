@@ -5,67 +5,23 @@ const file = db.openDatabase('data.db');
 
 // refactor for async
 
-export async function createThemeTable() {
-  file.transaction((tx) => {
-    tx.executeSql(
-      `CREATE TABLE IF NOT EXISTS theme (activeTheme BOOL PRIMARY KEY);
-      INSERT INTO theme (activeTheme) VALUES (TRUE); 
-      `,
-      null,
-      () => console.log('theme table active'),
-      (e) => console.error('err in createThemeTable', e)
-    );
-  });
-}
-
-export async function saveTheme(themeValue) {
-  file.transaction((tx) => {
-    tx.executeSql(
-      'UPDATE theme SET activeTheme = ?',
-      [themeValue],
-      () => console.log('activeTheme was updated to', themeValue),
-      (e) => console.error('err in saveTheme ', e)
-    );
-  });
-}
-
-export async function readTheme() {
-  return new Promise((resolve, reject) => {
-    file.transaction((tx) => {
-      tx.executeSql(
-        'SELECT activeTheme FROM theme',
-        null,
-        (_, { rows: { _array } }) => {
-          resolve(_array);
-        },
-        (e) => {
-          console.error('err in readTheme ', e);
-          reject(e);
-        }
-      );
-    });
-  });
-}
-
-export async function firstLaunch() {
+export async function setTheme(theme) {
   try {
-    await AsyncStorage.setItem('firstLaunch', 'true');
+    const themeAsString = JSON.stringify(theme);
+    console.log('theme has been set to:', themeAsString);
+    await AsyncStorage.setItem('theme', themeAsString);
   } catch (e) {
-    console.error('err in firstLaunch', e);
+    console.error('err in setTheme ', e);
   }
 }
 
-export async function isFirstLaunch(setLaunched) {
+export async function getTheme() {
   try {
-    const firstLaunch = await AsyncStorage.getItem('firstLaunch');
-    if (firstLaunch == null) {
-      // first time
-      return true;
-    } else {
-      // not first time
-    }
+    const themeAsString = await AsyncStorage.getItem('theme');
+    const theme = themeAsString ? JSON.parse(themeAsString) : null;
+    return theme;
   } catch (e) {
-    console.error('err in isFirstLaunch ', e);
+    console.error('err in getTheme ', e);
   }
 }
 
@@ -83,5 +39,13 @@ export async function getUserName() {
     return name;
   } catch (error) {
     console.error('err in getUserName', error);
+  }
+}
+
+export async function resetName() {
+  try {
+    await AsyncStorage.removeItem('name');
+  } catch (e) {
+    console.error('err in resetName ', e);
   }
 }
