@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const file = db.openDatabase('data.db');
 
+// refactor for async
+
 export async function createThemeTable() {
   file.transaction((tx) => {
     tx.executeSql(
@@ -64,5 +66,22 @@ export async function isFirstLaunch(setLaunched) {
     }
   } catch (e) {
     console.error('err in isFirstLaunch ', e);
+  }
+}
+
+export async function setUserName(name) {
+  try {
+    await AsyncStorage.setItem('name', name);
+  } catch (e) {
+    console.error('err in setUserName ', e);
+  }
+}
+
+export async function getUserName() {
+  try {
+    const name = await AsyncStorage.getItem('name');
+    return name;
+  } catch (error) {
+    console.error('err in getUserName', error);
   }
 }

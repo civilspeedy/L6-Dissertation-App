@@ -1,13 +1,13 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import Messages from './Components/Messages';
 import CustomTextInput from './Components/Text Input';
 import {
   createThemeTable,
   firstLaunch,
-  isFirstLaunch,
+  getUserName,
   readTheme,
 } from './Database/Manipulation';
 import { impactAsync } from 'expo-haptics';
@@ -16,6 +16,7 @@ import WhatsYourName from './Components/WhatsYourName';
 
 createThemeTable();
 firstLaunch();
+
 export default function App() {
   const colourJson = require('./assets/json/theme.json');
 
@@ -23,8 +24,8 @@ export default function App() {
   const [send, setSend] = useState(false);
   const [themeSate, setThemeState] = useState(true);
   const [activeTheme, setActiveTheme] = useState(colourJson.darkColours);
-  const [launched, setLaunched] = useState(true);
   const [state, setState] = useState(false);
+  const [name, setName] = useState('');
 
   Location();
 
@@ -50,8 +51,12 @@ export default function App() {
   }, [themeSate]);
 
   useEffect(() => {
-    console.log('launched:', launched);
-  }, [launched]);
+    const fetchUserName = async () => {
+      const fetchedName = await getUserName();
+      setName(fetchedName);
+    };
+    fetchUserName();
+  }, []);
 
   const handleMessageSend = () => {
     impactAsync();
@@ -129,6 +134,7 @@ export default function App() {
         activeTheme={activeTheme}
         state={state}
         setState={setState}
+        setName={setName}
       />
     </View>
   );

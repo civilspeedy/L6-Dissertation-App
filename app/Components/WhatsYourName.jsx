@@ -2,8 +2,14 @@ import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View, Modal } from 'react-native';
 import CustomTextInput from './Text Input';
 import { BlurView } from 'expo-blur';
+import { getUserName, setUserName } from '../Database/Manipulation';
 
-export default function WhatsYourName({ activeTheme, state, setState }) {
+export default function WhatsYourName({
+  activeTheme,
+  state,
+  setState,
+  outsideSetName,
+}) {
   const [name, setName] = useState('');
   const [displayState, setDisplayState] = useState(false);
 
@@ -15,10 +21,12 @@ export default function WhatsYourName({ activeTheme, state, setState }) {
       Alert.alert('Sorry but this is too long.');
     } else {
       console.log('in else statement');
+      setUserName(name);
       setDisplayState(true);
       setTimeout(() => {
         setState(false);
       }, 700);
+      getUserName(outsideSetName);
     }
   };
 
@@ -39,7 +47,7 @@ export default function WhatsYourName({ activeTheme, state, setState }) {
           ]}>
           {displayState ? (
             <View>
-              <Text>Hello {name}!</Text>
+              <Text style={{ fontSize: 30 }}>Hello {name}!</Text>
             </View>
           ) : (
             <View style={styles.subContainer}>
