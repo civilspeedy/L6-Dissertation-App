@@ -10,7 +10,6 @@ import Location from './Components/Location';
 import WhatsYourName from './Components/WhatsYourName';
 
 export default function App() {
-  // WHAT'S YOUR NAME KEEPS OPENING FOR SOME REASON
   const colourJson = require('./assets/json/theme.json');
 
   const [userInput, setInput] = useState('');
@@ -27,6 +26,7 @@ export default function App() {
       const fetchedTheme = await getTheme();
       setThemeState(fetchedTheme);
     };
+
     const fetchUserName = async () => {
       const fetchedName = await getUserName();
       setName(fetchedName);
