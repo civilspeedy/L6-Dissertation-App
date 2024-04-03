@@ -4,19 +4,13 @@ import { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import Messages from './Components/Messages';
 import CustomTextInput from './Components/Text Input';
-import {
-  createThemeTable,
-  firstLaunch,
-  getTheme,
-  getUserName,
-  readTheme,
-  setTheme,
-} from './Database/Manipulation';
+import { getTheme, getUserName, setTheme } from './Database/Manipulation';
 import { impactAsync } from 'expo-haptics';
 import Location from './Components/Location';
 import WhatsYourName from './Components/WhatsYourName';
 
 export default function App() {
+  // WHAT'S YOUR NAME KEEPS OPENING FOR SOME REASON
   const colourJson = require('./assets/json/theme.json');
 
   const [userInput, setInput] = useState('');
@@ -36,21 +30,16 @@ export default function App() {
     const fetchUserName = async () => {
       const fetchedName = await getUserName();
       setName(fetchedName);
+      if (fetchedName === null) {
+        setAskName(true);
+      } else {
+        setAskName(false);
+      }
     };
 
     fetchUserName();
     fetchTheme();
   }, []);
-
-  useEffect(() => {
-    console.log('name type:', typeof name);
-    console.log('name:', name);
-    if (name == null) {
-      setAskName(true);
-    } else {
-      setAskName(false);
-    }
-  }, [name]);
 
   useEffect(() => {
     if (themeSate) {
