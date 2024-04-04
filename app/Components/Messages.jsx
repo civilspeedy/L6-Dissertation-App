@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import MessageBubble from './MessageBubble';
-import { sendMessage } from './Speaker';
+import { sendMessage } from './Api';
 
 export default function Messages({
   currentUserMessage,
@@ -24,8 +24,6 @@ export default function Messages({
   const userMessagesArray = [];
   const speakerMessagesArray = [];
 
-  //sendMessage(); // THIS CALLS EVERY TIME I TYPE
-
   const scrollRef = useRef(null);
 
   const scrollToNewMessage = () => {
@@ -35,6 +33,7 @@ export default function Messages({
   useEffect(() => {
     if (send) {
       addUserMessageToList(currentUserMessage);
+      sendMessage(currentUserMessage);
       setSend(false);
     }
   }, [send]);
