@@ -8,9 +8,11 @@ export default function MessageBubble({ message, isSpeaker }) {
   useEffect(() => {
     setMessageToDisplay(message);
     if (isSpeaker) {
-      setBgColour('#14AEEB');
+      setBgColour('#14AEEB'); // Set speaker's bubble color to orange
+    } else {
+      setBgColour('#EB5114'); // Set user's bubble color to light gray
     }
-  }, [message]);
+  }, [message, isSpeaker]);
 
   return (
     <View style={[styles.container, { backgroundColor: bgColour }]}>

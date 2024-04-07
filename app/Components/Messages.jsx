@@ -15,11 +15,9 @@ export default function Messages({
   send,
   setSend,
   setUserInput,
+  name,
 }) {
-  const [userMessage, setUserMsg] = useState('');
-  const [speakerMessage, setSpeakerMsg] = useState('');
   const [bubblesList, setBubblesList] = useState([]);
-  const [whoSpokeLast, setWhoSpokeLast] = useState(null);
 
   const userMessagesArray = [];
   const speakerMessagesArray = [];
@@ -31,46 +29,51 @@ export default function Messages({
   };
 
   useEffect(() => {
-    if (send) {
+    const getSpeakerMessage = async () => {
+      const fetchedSpeakerMessage = await sendMessage(currentUserMessage, name);
+      const filtered_message = fetchedSpeakerMessage[0].response;
+      console.log('filtered message: ', filtered_message);
+
+      // something is going wrong here
       addUserMessageToList(currentUserMessage);
-      sendMessage(currentUserMessage);
+
+      addSpeakerMessageToList(filtered_message);
+
       setSend(false);
+    };
+
+    if (send) {
+      getSpeakerMessage();
     }
-  }, [send]);
+  }, [send, currentUserMessage, name]);
 
   const addUserMessageToList = (message) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     userMessagesArray.pop(message);
-    setBubblesList(
-      bubblesList.concat(
-        //had string error here, google gemini suggested using .concat()
-        <MessageBubble
-          message={message}
-          isSpeaker={false}
-          key={bubblesList.length + 1}
-        />
-      )
-    );
+    setBubblesList([
+      ...bubblesList,
+      <MessageBubble
+        message={message}
+        isSpeaker={false}
+        key={bubblesList.length + 1}
+      />,
+    ]);
     setUserInput('');
-    setWhoSpokeLast(true);
     scrollToNewMessage();
     console.log(bubblesList);
   };
 
-  //need to a way to know when a message has been added otherwise async causes overlap
   const addSpeakerMessageToList = (message) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     speakerMessagesArray.pop(message);
-    setBubblesList(
-      bubblesList.concat(
-        <MessageBubble
-          message={message}
-          isSpeaker={true}
-          key={bubblesList.length + 1}
-        />
-      )
-    );
-    setWhoSpokeLast(false);
+    setBubblesList([
+      ...bubblesList,
+      <MessageBubble
+        message={message}
+        isSpeaker={true}
+        key={bubblesList.length + 1}
+      />,
+    ]);
     console.log(bubblesList);
     scrollToNewMessage();
   };

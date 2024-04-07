@@ -100,6 +100,7 @@ export default function App() {
         currentUserMessage={userInput}
         setUserInput={setInput}
         activeTheme={activeTheme}
+        name={name}
       />
       <View style={[styles.inputArea, { borderColor: activeTheme.secondary }]}>
         <CustomTextInput
