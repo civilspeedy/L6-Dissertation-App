@@ -1,13 +1,21 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  LayoutAnimation,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import CustomTextInput from './Components/Text Input';
 import { getTheme, getUserName, setTheme } from './Logic/Manipulation';
 import { impactAsync } from 'expo-haptics';
 import Location from './Components/Location';
 import WhatsYourName from './Components/WhatsYourName';
 import MessageDisplay from './Components/Message Display';
+import Settings from './Components/Settings';
 
 export default function App() {
   const colourJson = require('./assets/json/theme.json');
@@ -72,6 +80,7 @@ export default function App() {
         name={name}
       />
       <View style={styles.topArea}>
+        <Settings activeTheme={activeTheme} />
         <Pressable
           onPress={() => {
             const newState = !themeSate;
@@ -168,5 +177,6 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     top: 20,
+    flexDirection: 'row',
   },
 });
