@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import CustomTextInput from './Text Input';
 import { BlurView } from 'expo-blur';
-import { getUserName, setUserName } from '../Database/Manipulation';
+import { getUserName, setUserName } from '../Logic/Manipulation';
 
 export default function WhatsYourName({
   activeTheme,

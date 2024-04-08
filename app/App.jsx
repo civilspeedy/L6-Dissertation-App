@@ -2,12 +2,12 @@ import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
-import Messages from './Components/Messages';
 import CustomTextInput from './Components/Text Input';
-import { getTheme, getUserName, setTheme } from './Database/Manipulation';
+import { getTheme, getUserName, setTheme } from './Logic/Manipulation';
 import { impactAsync } from 'expo-haptics';
 import Location from './Components/Location';
 import WhatsYourName from './Components/WhatsYourName';
+import MessageDisplay from './Components/Message Display';
 
 export default function App() {
   const colourJson = require('./assets/json/theme.json');
@@ -64,6 +64,12 @@ export default function App() {
   return (
     <View style={[styles.container, { backgroundColor: activeTheme.primary }]}>
       <StatusBar style='auto' />
+      <MessageDisplay
+        send={send}
+        setSend={setSend}
+        userMessage={userInput}
+        setUserInput={setInput}
+      />
       <View style={styles.topArea}>
         <Pressable
           onPress={() => {
@@ -94,21 +100,13 @@ export default function App() {
           )}
         </Pressable>
       </View>
-      <Messages
-        send={send}
-        setSend={setSend}
-        currentUserMessage={userInput}
-        setUserInput={setInput}
-        activeTheme={activeTheme}
-        name={name}
-      />
+
       <View style={[styles.inputArea, { borderColor: activeTheme.secondary }]}>
         <CustomTextInput
           setUserInput={setInput}
           userInput={userInput}
           activeTheme={activeTheme}
         />
-
         <Pressable
           style={[
             styles.sendButton,
@@ -117,7 +115,7 @@ export default function App() {
           onPress={() => handleMessageSend()}>
           <Feather
             name='send'
-            size={45}
+            size={35}
             color={activeTheme.primary}
           />
         </Pressable>
@@ -158,6 +156,8 @@ const styles = StyleSheet.create({
   },
   sendButton: {
     borderRadius: 50,
+    width: 45,
+    height: 45,
     alignContent: 'center',
     justifyContent: 'center',
   },
@@ -165,5 +165,7 @@ const styles = StyleSheet.create({
     flex: 0.1,
     marginTop: 10,
     width: '100%',
+    position: 'absolute',
+    top: 20,
   },
 });
