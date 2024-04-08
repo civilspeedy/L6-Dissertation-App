@@ -69,6 +69,7 @@ export default function App() {
         setSend={setSend}
         userMessage={userInput}
         setUserInput={setInput}
+        name={name}
       />
       <View style={styles.topArea}>
         <Pressable

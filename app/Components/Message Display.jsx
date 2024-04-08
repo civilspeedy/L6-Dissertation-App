@@ -7,21 +7,31 @@ import {
   Text,
   View,
 } from 'react-native';
+import { sendMessage } from '../Logic/Api';
 
 export default function MessageDisplay({
   send,
   setSend,
   userMessage,
   setUserInput,
+  name,
 }) {
   const [displayStack, setDisplayStack] = useState([]);
 
   useEffect(() => {
-    // suggestion from claude, had bug where useEffect was being called every time user types
+    const fetchSpeakerMessage = async () => {
+      const fetchedMsg = await sendMessage(userMessage, name);
+      console.log('outside:', fetchedMsg);
+      updateDisplayStack(
+        messageBubble({ message: fetchedMsg, source: 'speaker' })
+      );
+    };
+
     if (send && userMessage.trim() !== '') {
       updateDisplayStack(
         messageBubble({ message: userMessage, source: 'user' })
       );
+      fetchSpeakerMessage();
       setSend(false);
       setUserInput('');
     }
