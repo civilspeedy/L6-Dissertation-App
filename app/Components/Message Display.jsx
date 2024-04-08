@@ -24,7 +24,6 @@ export default function MessageDisplay({
       );
       setSend(false);
       setUserInput('');
-      scrollToNewMessage();
     }
   }, [send, userMessage, setSend, setUserInput]);
 
@@ -55,13 +54,15 @@ export default function MessageDisplay({
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        {displayStack.map((message, index) => (
-          <View
-            style={{ flex: 1 }}
-            key={index}>
-            {message}
-          </View>
-        ))}
+        <View>
+          {displayStack.map((message, index) => (
+            <View
+              style={{ flex: 1 }}
+              key={index}>
+              {message}
+            </View>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -78,12 +79,18 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     marginTop: 10,
-    flex: 1,
+    alignSelf: 'center',
   },
   scrollView: {
     marginTop: '20%',
+    width: '100%',
+  },
+  innerView: {
+    width: '100%',
+    alignItems: 'center',
   },
   messageText: {
     textAlign: 'center',
+    fontSize: 16,
   },
 });
