@@ -11,6 +11,7 @@ import {
 import CustomTextInput from './Text Input';
 import { BlurView } from 'expo-blur';
 import { getUserName, setUserName } from '../Logic/Manipulation';
+import NameEntry from './Name Entry';
 
 export default function WhatsYourName({
   activeTheme,
@@ -66,8 +67,7 @@ export default function WhatsYourName({
               </Text>
 
               <View style={styles.inputContainer}>
-                <CustomTextInput
-                  activeTheme={activeTheme}
+                <NameEntry
                   userInput={name}
                   setUserInput={setName}
                 />

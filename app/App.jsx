@@ -10,7 +10,13 @@ import {
   View,
 } from 'react-native';
 import CustomTextInput from './Components/Text Input';
-import { getTheme, getUserName, setTheme } from './Logic/Manipulation';
+import {
+  getLocationAccess,
+  getTheme,
+  getUserName,
+  setLocationAccess,
+  setTheme,
+} from './Logic/Manipulation';
 import { impactAsync } from 'expo-haptics';
 import Location from './Components/Location';
 import WhatsYourName from './Components/WhatsYourName';
@@ -26,13 +32,21 @@ export default function App() {
   const [activeTheme, setActiveTheme] = useState(colourJson.darkColours);
   const [askName, setAskName] = useState(false);
   const [name, setName] = useState(null);
+  const [locationAccess, setAccess] = useState(false);
 
-  Location();
+  useEffect(() => {
+    setLocationAccess(locationAccess);
+  }, [locationAccess]);
 
   useEffect(() => {
     const fetchTheme = async () => {
       const fetchedTheme = await getTheme();
       setThemeState(fetchedTheme);
+    };
+
+    const fetchLocationAccess = async () => {
+      const fetchedAccess = await getLocationAccess();
+      setLocationAccess(fetchedAccess);
     };
 
     const fetchUserName = async () => {
@@ -46,6 +60,7 @@ export default function App() {
     };
 
     fetchUserName();
+    fetchLocationAccess();
     fetchTheme();
   }, []);
 
@@ -80,7 +95,13 @@ export default function App() {
         name={name}
       />
       <View style={styles.topArea}>
-        <Settings activeTheme={activeTheme} />
+        <Settings
+          activeTheme={activeTheme}
+          setAccess={setAccess}
+          locationAccess={locationAccess}
+          name={name}
+          setName={setName}
+        />
         <Pressable
           onPress={() => {
             const newState = !themeSate;

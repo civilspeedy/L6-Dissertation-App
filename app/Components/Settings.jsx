@@ -2,10 +2,17 @@ import { useState } from 'react';
 import { Modal, Pressable, View, Text, StyleSheet, Switch } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Feather } from '@expo/vector-icons';
-import CustomTextInput from './Text Input';
+import NameEntry from './Name Entry';
 
-export default function Settings({ activeTheme, name, setName }) {
+export default function Settings({
+  activeTheme,
+  name,
+  setName,
+  locationAccess,
+  setAccess,
+}) {
   const [state, setState] = useState(false);
+
   return (
     <View>
       <Modal
@@ -22,23 +29,33 @@ export default function Settings({ activeTheme, name, setName }) {
               styles.modalContent,
               { backgroundColor: activeTheme.modalColour },
             ]}>
-            <Text>Change Name: </Text>
-            <View style={styles.textInput}>
-              <CustomTextInput
-                setUserInput={setName}
-                userInput={name}
-                activeTheme={activeTheme}
-              />
-            </View>
+            <Text style={{ marginBottom: 10 }}>Change Name: </Text>
+            <NameEntry
+              name={name}
+              setName={setName}
+            />
             <View style={styles.locationView}>
               <Text>Allow Location Services: </Text>
-              <Switch />
+              <Switch
+                trackColor={{ true: 'lightgreen' }}
+                onValueChange={setAccess}
+                value={locationAccess}
+                style={{ marginLeft: 10 }}
+              />
             </View>
-            <Pressable
-              style={styles.closeButton}
-              onPress={() => setState(false)}>
-              <Text>Close</Text>
-            </Pressable>
+            <View style={styles.buttonsView}>
+              <Pressable
+                style={[styles.closeButtons, { backgroundColor: '#0CB8F3' }]}>
+                <Text style={{ textAlign: 'center' }}>Confirm and Close</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.closeButtons, { backgroundColor: 'lightgrey' }]}
+                onPress={() => setState(false)}>
+                <Text style={{ textAlign: 'center' }}>
+                  Close Without Saving
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </BlurView>
       </Modal>
@@ -69,8 +86,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     margin: 20,
   },
-  closeButton: {
-    backgroundColor: 'red',
+  closeButtons: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    marginBottom: 10,
+    borderRadius: 50,
   },
   modalContent: {
     flex: 1,
@@ -78,7 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     marginHorizontal: 20,
-    marginVertical: '50%',
+    marginVertical: '60%',
     borderRadius: 50,
   },
   textInput: {
@@ -89,5 +110,10 @@ const styles = StyleSheet.create({
   },
   locationView: {
     flexDirection: 'row',
+    margin: 10,
+    alignItems: 'center',
+  },
+  buttonsView: {
+    margin: 10,
   },
 });

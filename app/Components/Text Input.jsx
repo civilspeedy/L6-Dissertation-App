@@ -5,7 +5,6 @@ export default function CustomTextInput({
   setUserInput,
   activeTheme,
 }) {
-  const displaytext = '';
   return (
     <TextInput
       style={[styles.input, { color: activeTheme.secondary }]}

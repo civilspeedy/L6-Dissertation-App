@@ -1,10 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+function jsonParseIn(json) {
+  const jsonAsString = JSON.stringify(json);
+  return jsonAsString;
+}
+
+function jsonParseOut(string) {
+  const json = string ? JSON.parse(string) : null;
+  return json;
+}
+
 export async function setTheme(theme) {
   try {
-    const themeAsString = JSON.stringify(theme);
-    console.log('theme has been set to:', themeAsString);
-    await AsyncStorage.setItem('theme', themeAsString);
+    await AsyncStorage.setItem('theme', jsonParseIn(themeAsString));
   } catch (e) {
     console.error('err in setTheme ', e);
   }
@@ -13,8 +21,7 @@ export async function setTheme(theme) {
 export async function getTheme() {
   try {
     const themeAsString = await AsyncStorage.getItem('theme');
-    const theme = themeAsString ? JSON.parse(themeAsString) : null;
-    return theme;
+    return jsonParseOut(themeAsString);
   } catch (e) {
     console.error('err in getTheme ', e);
   }
@@ -70,7 +77,7 @@ export async function resetUserMessage() {
   try {
     await AsyncStorage.removeItem('userMessage');
   } catch (e) {
-    console.error('err in resetUserMessage');
+    console.error('err in resetUserMessage ', e);
   }
 }
 
@@ -100,5 +107,22 @@ export async function resetSpeakerMessage() {
     await AsyncStorage.removeItem('speakerMessage');
   } catch (e) {
     console.error('err in resetSpeakerMessage ', e);
+  }
+}
+
+export async function setLocationAccess(value) {
+  try {
+    await AsyncStorage.setItem('locationAccess', jsonParseIn(value));
+  } catch (e) {
+    console.error('err in setLocationAccess ', e);
+  }
+}
+
+export async function getLocationAccess() {
+  try {
+    const locationAccess = await AsyncStorage.getItem('locationAccess');
+    return jsonParseOut(locationAccess);
+  } catch (e) {
+    console.error('err in getLocationAccess ', e);
   }
 }
