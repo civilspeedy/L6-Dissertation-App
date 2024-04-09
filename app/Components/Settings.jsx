@@ -18,11 +18,21 @@ export default function Settings({ activeTheme, setName }) {
     fetchLocationAcc();
   }, []);
 
+  useEffect(() => {
+    console.log(access);
+    setLocationAccess(access);
+  }, [access]);
+
   const handleClose = (save) => {
+    console.log(1);
     if (save) {
-      setName(newName);
+      console.log(2);
+      if (newName.trim() !== '') {
+        setName(newName);
+      }
       setNewName('');
     } else {
+      console.log(3);
       setNewName('');
     }
     setState(false);
@@ -52,7 +62,7 @@ export default function Settings({ activeTheme, setName }) {
               <Text>Allow Location Services: </Text>
               <Switch
                 trackColor={{ true: 'lightgreen' }}
-                onValueChange={(value) => setLocationAccess(value)}
+                onValueChange={setAccess}
                 value={access}
                 style={{ marginLeft: 10 }}
               />

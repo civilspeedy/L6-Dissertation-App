@@ -23,7 +23,7 @@ export default function MessageDisplay({
       const fetchedMsg = await sendMessage(userMessage, name);
       console.log('outside:', fetchedMsg);
       updateDisplayStack(
-        messageBubble({ message: fetchedMsg, source: 'speaker' })
+        messageBubble({ message: fetchedMsg[0].response, source: 'speaker' })
       );
     };
 
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginTop: 10,
     alignSelf: 'center',
+    maxWidth: '80%',
   },
   scrollView: {
     marginTop: '20%',

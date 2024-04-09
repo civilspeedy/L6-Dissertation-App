@@ -14,6 +14,7 @@ import { impactAsync } from 'expo-haptics';
 import WhatsYourName from './Components/WhatsYourName';
 import MessageDisplay from './Components/Message Display';
 import Settings from './Components/Settings';
+import getLocation from './Logic/Location';
 
 export default function App() {
   const colourJson = require('./assets/json/theme.json');
@@ -25,10 +26,19 @@ export default function App() {
   const [askName, setAskName] = useState(false);
   const [name, setName] = useState(null);
   const [locationAccess, setAccess] = useState(false);
+  const [location, setLocation] = useState('');
 
   useEffect(() => {
-    setLocationAccess(locationAccess);
-    console.log('location access:', locationAccess);
+    // broken, come back to
+    const fetchLocation = async () => {
+      if (locationAccess) {
+        console.log('Fetching location');
+        const fetchedLocation = await getLocation();
+        setLocation(fetchedLocation);
+      }
+    };
+
+    fetchLocation();
   }, [locationAccess]);
 
   useEffect(() => {
@@ -56,6 +66,7 @@ export default function App() {
     fetchUserName();
     fetchLocationAccess();
     fetchTheme();
+    setLocationAccess(locationAccess);
   }, []);
 
   useEffect(() => {
