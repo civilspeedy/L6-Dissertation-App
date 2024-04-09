@@ -1,14 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import {
-  Alert,
-  LayoutAnimation,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import CustomTextInput from './Components/Text Input';
 import {
   getLocationAccess,
@@ -18,7 +11,6 @@ import {
   setTheme,
 } from './Logic/Manipulation';
 import { impactAsync } from 'expo-haptics';
-import Location from './Components/Location';
 import WhatsYourName from './Components/WhatsYourName';
 import MessageDisplay from './Components/Message Display';
 import Settings from './Components/Settings';
@@ -36,6 +28,7 @@ export default function App() {
 
   useEffect(() => {
     setLocationAccess(locationAccess);
+    console.log('location access:', locationAccess);
   }, [locationAccess]);
 
   useEffect(() => {
@@ -46,7 +39,8 @@ export default function App() {
 
     const fetchLocationAccess = async () => {
       const fetchedAccess = await getLocationAccess();
-      setLocationAccess(fetchedAccess);
+      setAccess(fetchedAccess);
+      console.log(fetchedAccess);
     };
 
     const fetchUserName = async () => {

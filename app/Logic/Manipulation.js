@@ -12,7 +12,7 @@ function jsonParseOut(string) {
 
 export async function setTheme(theme) {
   try {
-    await AsyncStorage.setItem('theme', jsonParseIn(themeAsString));
+    await AsyncStorage.setItem('theme', jsonParseIn(theme));
   } catch (e) {
     console.error('err in setTheme ', e);
   }
