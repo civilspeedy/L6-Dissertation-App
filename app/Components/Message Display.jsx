@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'center',
     maxWidth: '80%',
+    margin: 10,
   },
   scrollView: {
     marginTop: '20%',
