@@ -7,6 +7,9 @@ import {
   View,
 } from 'react-native';
 import { sendMessage } from '../Logic/Api';
+import { useRef } from 'react';
+
+//needs scroll to animation
 
 export default function MessageDisplay({
   send,
@@ -16,6 +19,7 @@ export default function MessageDisplay({
   name,
 }) {
   const [displayStack, setDisplayStack] = useState([]);
+  const scrollRef = useRef();
 
   useEffect(() => {
     const fetchSpeakerMessage = async () => {
@@ -38,6 +42,7 @@ export default function MessageDisplay({
 
   const updateDisplayStack = (item) => {
     setDisplayStack((prevStack) => [...prevStack, item]);
+    scrollRef.current.scrollToEnd({ animated: true });
   };
 
   const messageBubble = (message) => {
@@ -62,7 +67,9 @@ export default function MessageDisplay({
   LayoutAnimation.spring();
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        style={styles.scrollView}
+        ref={scrollRef}>
         <View>
           {displayStack.map((message, index) => (
             <View
@@ -89,11 +96,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginTop: 10,
     alignSelf: 'center',
-    maxWidth: '80%',
+    maxWidth: '63%',
     margin: 10,
   },
   scrollView: {
-    marginTop: '20%',
+    marginTop: '21%',
+    marginBottom: '23%',
     width: '100%',
   },
   innerView: {
