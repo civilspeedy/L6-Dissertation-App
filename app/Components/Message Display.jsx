@@ -10,8 +10,6 @@ import { sendMessage } from '../Logic/Api';
 import { useRef } from 'react';
 import Markdown from 'react-native-markdown-display';
 
-//needs scroll to animation
-
 export default function MessageDisplay({
   send,
   setSend,
@@ -41,10 +39,14 @@ export default function MessageDisplay({
     }
   }, [send, userMessage, setSend, setUserInput]);
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollToEnd({ animated: true });
+    }
+  }, [displayStack]);
+
   const updateDisplayStack = (item) => {
-    scrollRef.current.scrollToEnd({ animated: true });
     setDisplayStack((prevStack) => [...prevStack, item]);
-    scrollRef.current.scrollToEnd({ animated: true });
   };
 
   const messageBubble = (message) => {
