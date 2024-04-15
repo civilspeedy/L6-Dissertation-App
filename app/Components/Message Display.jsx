@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { sendMessage } from '../Logic/Api';
 import { useRef } from 'react';
+import Markdown from 'react-native-markdown-display';
 
 //needs scroll to animation
 
@@ -19,7 +20,7 @@ export default function MessageDisplay({
   name,
 }) {
   const [displayStack, setDisplayStack] = useState([]);
-  const scrollRef = useRef();
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const fetchSpeakerMessage = async () => {
@@ -41,6 +42,7 @@ export default function MessageDisplay({
   }, [send, userMessage, setSend, setUserInput]);
 
   const updateDisplayStack = (item) => {
+    scrollRef.current.scrollToEnd({ animated: true });
     setDisplayStack((prevStack) => [...prevStack, item]);
     scrollRef.current.scrollToEnd({ animated: true });
   };
@@ -49,17 +51,25 @@ export default function MessageDisplay({
     const source = message.source;
     const text = message.message;
     let colour = '#F3470C';
+    let messageText = null;
 
     console.log(text);
     console.log(source);
 
     if (source == 'user') {
       colour = '#0CB8F3';
+      messageText = <Text style={styles.messageText}>{text}</Text>;
+    } else {
+      messageText = (
+        <View style={{ padding: 10 }}>
+          <Markdown>{text}</Markdown>
+        </View>
+      );
     }
 
     return (
       <View style={[styles.messageContainer, { backgroundColor: colour }]}>
-        <Text style={styles.messageText}>{text}</Text>
+        {messageText}
       </View>
     );
   };
@@ -92,15 +102,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   messageContainer: {
-    padding: 10,
+    padding: 20,
     borderRadius: 50,
     marginTop: 10,
     alignSelf: 'center',
-    maxWidth: '63%',
+    maxWidth: '70%',
     margin: 10,
   },
   scrollView: {
-    marginTop: '21%',
+    marginTop: '25%',
     marginBottom: '23%',
     width: '100%',
   },
