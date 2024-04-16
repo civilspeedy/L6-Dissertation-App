@@ -24,9 +24,15 @@ export default function MessageDisplay({
     const fetchSpeakerMessage = async () => {
       const fetchedMsg = await sendMessage(userMessage, name);
       console.log('outside:', fetchedMsg);
-      updateDisplayStack(
-        messageBubble({ message: fetchedMsg[0].response, source: 'speaker' })
-      );
+      if (typeof fetchedMsg === 'string') {
+        updateDisplayStack(
+          messageBubble({ message: fetchedMsg, source: 'error' })
+        );
+      } else {
+        updateDisplayStack(
+          messageBubble({ message: fetchedMsg[0].response, source: 'speaker' })
+        );
+      }
     };
 
     if (send && userMessage.trim() !== '') {
@@ -41,6 +47,7 @@ export default function MessageDisplay({
 
   useEffect(() => {
     if (scrollRef.current) {
+      scrollRef.current.scrollToEnd({ animated: true });
       scrollRef.current.scrollToEnd({ animated: true });
     }
   }, [displayStack]);
@@ -61,12 +68,15 @@ export default function MessageDisplay({
     if (source == 'user') {
       colour = '#0CB8F3';
       messageText = <Text style={styles.messageText}>{text}</Text>;
-    } else {
+    }
+    if (source == 'speaker') {
       messageText = (
         <View style={{ padding: 10 }}>
           <Markdown>{text}</Markdown>
         </View>
       );
+    } else {
+      messageText = <Text style={styles.messageText}>{text}</Text>;
     }
 
     return (
