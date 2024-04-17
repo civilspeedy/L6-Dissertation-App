@@ -1,33 +1,24 @@
-import { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View, Modal } from 'react-native';
+import { useState, useEffect } from 'react';
+import { Pressable, StyleSheet, Text, View, Modal } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { setUserName } from '../Logic/Manipulation';
-import NameEntry from './Name Entry';
+import NameEntry, { checkNameInput } from './Name Entry';
 
-export default function StarterPage({ activeTheme, state, setState }) {
+export default function StarterPage({ activeTheme, state }) {
     const [name, setName] = useState('');
     const [displayState, setDisplayState] = useState(false);
+    const [localState, setLocalState] = useState(state);
 
-    const checkNameInput = () => {
-        console.log('button pressed');
-        console.log(name);
-        if (name == '') {
-            Alert.alert(
-                `Please enter a name. It doesn't have to be your real one.`
-            );
-        } else if (name.length >= 32) {
-            Alert.alert('Sorry but this is too long.');
+    useEffect(() => {
+        if (!state) {
+            setLocalState(false);
         } else {
-            console.log('in else statement');
-            setUserName(name);
-            setDisplayState(true);
+            setLocalState(true);
         }
-    };
-
+    }, [state]);
     return (
         <Modal
             transparent={true}
-            visible={state}
+            visible={localState}
             animationType='fade'
             style={[styles.modalContainer]}>
             <BlurView
@@ -54,7 +45,7 @@ export default function StarterPage({ activeTheme, state, setState }) {
                                 to focus conversations on weather information.
                             </Text>
                             <Pressable
-                                onPress={() => setState(false)}
+                                onPress={() => setLocalState(false)}
                                 style={styles.submitButton}>
                                 <Text>I understand</Text>
                             </Pressable>
@@ -81,7 +72,10 @@ export default function StarterPage({ activeTheme, state, setState }) {
 
                             <Pressable
                                 style={styles.submitButton}
-                                onPress={() => checkNameInput()}>
+                                onPress={() => {
+                                    checkNameInput(name);
+                                    setDisplayState(true);
+                                }}>
                                 <Text>Submit Name</Text>
                             </Pressable>
                         </View>

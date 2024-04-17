@@ -3,20 +3,11 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import CustomTextInput from './Components/Text Input';
-import {
-    getLocationAccess,
-    getTheme,
-    getUserName,
-    resetName,
-    setLocationAccess,
-    setTheme,
-} from './Logic/Manipulation';
+import { getTheme, getUserName, setTheme } from './Logic/Manipulation';
 import { impactAsync } from 'expo-haptics';
 import MessageDisplay from './Components/Message Display';
 import Settings from './Components/Settings';
-import getLocation from './Logic/Location';
 import StarterPage from './Components/Starter Page';
-
 export default function App() {
     const colourJson = require('./assets/json/theme.json');
 
@@ -25,50 +16,22 @@ export default function App() {
     const [themeSate, setThemeState] = useState(true);
     const [activeTheme, setActiveTheme] = useState(colourJson.darkColours);
     const [askName, setAskName] = useState(false);
-    const [name, setName] = useState(null);
     const [locationAccess, setAccess] = useState(false);
-    const [location, setLocation] = useState('');
-
-    useEffect(() => {
-        // broken, come back to
-        const fetchLocation = async () => {
-            if (locationAccess) {
-                console.log('Fetching location');
-                const fetchedLocation = await getLocation();
-                setLocation(fetchedLocation);
-            }
-        };
-
-        fetchLocation();
-    }, [locationAccess]);
 
     useEffect(() => {
         const fetchTheme = async () => {
             const fetchedTheme = await getTheme();
             setThemeState(fetchedTheme);
         };
-
-        const fetchLocationAccess = async () => {
-            const fetchedAccess = await getLocationAccess();
-            setAccess(fetchedAccess);
-            console.log(fetchedAccess);
-        };
-
-        const fetchUserName = async () => {
+        const fetchName = async () => {
             const fetchedName = await getUserName();
-            setName(fetchedName);
-            console.log(fetchedName);
-            if (fetchedName === null) {
+            if (fetchedName == null) {
                 setAskName(true);
-            } else {
-                setAskName(false);
             }
         };
 
-        fetchUserName();
-        fetchLocationAccess();
         fetchTheme();
-        setLocationAccess(locationAccess);
+        fetchName();
     }, []);
 
     useEffect(() => {
@@ -103,15 +66,12 @@ export default function App() {
                 setSend={setSend}
                 userMessage={userInput}
                 setUserInput={setInput}
-                name={name}
             />
             <View style={styles.topArea}>
                 <Settings
                     activeTheme={activeTheme}
                     setAccess={setAccess}
                     locationAccess={locationAccess}
-                    name={name}
-                    setName={setName}
                 />
                 <Pressable
                     onPress={() => {
@@ -170,7 +130,6 @@ export default function App() {
                 activeTheme={activeTheme}
                 state={askName}
                 setState={setAskName}
-                setName={setName}
             />
         </View>
     );

@@ -15,14 +15,13 @@ export default function MessageDisplay({
     setSend,
     userMessage,
     setUserInput,
-    name,
 }) {
     const [displayStack, setDisplayStack] = useState([]);
     const scrollRef = useRef(null);
 
     useEffect(() => {
         const fetchSpeakerMessage = async () => {
-            const fetchedMsg = await sendMessage(userMessage, name);
+            const fetchedMsg = await sendMessage(userMessage);
             console.log('outside:', typeof fetchedMsg);
             if (typeof fetchedMsg === 'string') {
                 updateDisplayStack(

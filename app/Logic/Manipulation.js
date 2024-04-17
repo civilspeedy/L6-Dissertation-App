@@ -52,64 +52,6 @@ export async function resetName() {
     }
 }
 
-export async function setUserMessage(message) {
-    try {
-        await AsyncStorage.setItem('userMessage', message);
-    } catch (e) {
-        console.error('err in setUserMessage ', e);
-    }
-}
-
-export async function getUserMessage() {
-    try {
-        const message = await AsyncStorage.getItem('userMessage');
-        if (message === null) {
-            return false;
-        } else {
-            return message;
-        }
-    } catch (e) {
-        console.error('err in getUserMessage ', e);
-    }
-}
-
-export async function resetUserMessage() {
-    try {
-        await AsyncStorage.removeItem('userMessage');
-    } catch (e) {
-        console.error('err in resetUserMessage ', e);
-    }
-}
-
-export async function setSpeakerMessage(message) {
-    try {
-        await AsyncStorage.setItem('speakerMessage', message);
-    } catch (e) {
-        console.error('err in setSpeakerMessage ', e);
-    }
-}
-
-export async function getSpeakerMessage() {
-    try {
-        const message = await AsyncStorage.getItem('speakerMessage');
-        if (message === null) {
-            return false;
-        } else {
-            return message;
-        }
-    } catch (e) {
-        console.error('err in getSpeakerMessage ', e);
-    }
-}
-
-export async function resetSpeakerMessage() {
-    try {
-        await AsyncStorage.removeItem('speakerMessage');
-    } catch (e) {
-        console.error('err in resetSpeakerMessage ', e);
-    }
-}
-
 export async function setLocationAccess(value) {
     try {
         await AsyncStorage.setItem('locationAccess', jsonParseIn(value));
@@ -124,5 +66,22 @@ export async function getLocationAccess() {
         return jsonParseOut(locationAccess);
     } catch (e) {
         console.error('err in getLocationAccess ', e);
+    }
+}
+
+export async function getLocation() {
+    try {
+        const location = await AsyncStorage.getItem('location');
+        return location;
+    } catch (e) {
+        console.error('err in getLocation ', e);
+    }
+}
+
+export async function setLocation(value) {
+    try {
+        await AsyncStorage.setItem('location', jsonParseIn(value));
+    } catch (e) {
+        console.error('err in setLocation ', e);
     }
 }
