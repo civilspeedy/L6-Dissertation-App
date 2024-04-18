@@ -10,8 +10,9 @@ import { getLocation, getUserName } from './Manipulation';
  * @returns {string} the response from the webserver or an error message should a failure occur.
  */
 export const sendMessage = async (message) => {
-    const name = getUserName();
-    let location = getLocation();
+    const name = await getUserName();
+    console.log(name);
+    let location = await getLocation();
     if (location == null) {
         location = 'None';
     }
