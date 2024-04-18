@@ -1,8 +1,20 @@
+/**
+ * @file Contains components that open on the first time the app is launched.
+ * @module StarterPage
+ */
 import { useState, useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View, Modal } from 'react-native';
 import { BlurView } from 'expo-blur';
 import NameEntry, { checkNameInput } from './Name Entry';
 
+/**
+ * This modal opens if the app has not been opened before,
+ * it allows the user to chose a name and informs them of the
+ * limitations of the language model in use.
+ * @param {object} activeTheme an object containing values for the current theme.
+ * @param {boolean} state a value for opening or closing the modal.
+ * @returns {Modal} modal is triggered to open from App.jsx based on whether the name value is null or not.
+ */
 export default function StarterPage({ activeTheme, state }) {
     const [name, setName] = useState('');
     const [displayState, setDisplayState] = useState(false);
@@ -15,6 +27,7 @@ export default function StarterPage({ activeTheme, state }) {
             setLocalState(true);
         }
     }, [state]);
+
     return (
         <Modal
             transparent={true}

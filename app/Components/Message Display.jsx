@@ -1,3 +1,7 @@
+/**
+ * @file Contains all react-native components focused on displaying the user and LM's messages.
+ * @module MessageDisplay
+ */
 import { useEffect, useState } from 'react';
 import {
     LayoutAnimation,
@@ -9,7 +13,14 @@ import {
 import { sendMessage } from '../Logic/Api';
 import { useRef } from 'react';
 import Markdown from 'react-native-markdown-display';
-
+/**
+ * A react native component for displaying messages.
+ * @param {boolean} send a boolean value denoting whether to send the user's message or not.
+ * @param {function} setSend changes the value of send.
+ * @param {string} userMessage the user's message to be sent.
+ * @param {function} setUserInput changes the value in the text entry box.
+ * @returns {View} A view where the messages will be displayed.
+ */
 export default function MessageDisplay({
     send,
     setSend,
@@ -20,6 +31,10 @@ export default function MessageDisplay({
     const scrollRef = useRef(null);
 
     useEffect(() => {
+        /**
+         * A simple function for asynchronously fetching the message from the speaker
+         * and updating relevant stacks for display purposes.
+         */
         const fetchSpeakerMessage = async () => {
             const fetchedMsg = await sendMessage(userMessage);
             console.log('outside:', typeof fetchedMsg);
@@ -54,10 +69,19 @@ export default function MessageDisplay({
         }
     }, [displayStack]);
 
+    /**
+     * Appends a message component onto display stack.
+     * @param {View} item the message component to be added to stack.
+     */
     const updateDisplayStack = (item) => {
         setDisplayStack((prevStack) => [...prevStack, item]);
     };
 
+    /**
+     * A component for displaying a message from either the user, speaker (LM) or an error.
+     * @param {string} message the message from either the user or speaker (LM)
+     * @returns {View} the message wrapped in a view component to be displayed.
+     */
     const messageBubble = (message) => {
         const source = message.source;
         const text = message.message;

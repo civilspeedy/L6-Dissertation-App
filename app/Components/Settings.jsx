@@ -1,3 +1,7 @@
+/**
+ * @file A file housing components that make up the settings modal.
+ * @module Settings
+ */
 import { useEffect, useState } from 'react';
 import { Modal, Pressable, View, Text, StyleSheet, Switch } from 'react-native';
 import { BlurView } from 'expo-blur';
@@ -7,10 +11,14 @@ import {
     getLocationAccess,
     getUserName,
     setLocationAccess,
-    setUserName,
 } from '../Logic/Manipulation';
 import getLocationAndPerm from '../Logic/Location';
 
+/**
+ * A modal for changing the user's desired name and location permission.
+ * @param {object} activeTheme an object containing values for the current theme.
+ * @returns {View} a modal wrapped in a view, the modal is triggered to open upon a button press.
+ */
 export default function Settings({ activeTheme }) {
     const [state, setState] = useState(false);
     const [oldName, setOldName] = useState('');
@@ -18,10 +26,16 @@ export default function Settings({ activeTheme }) {
     const [access, setAccess] = useState(false);
 
     useEffect(() => {
+        /**
+         * Fetches from storage where access to the user's device location has been granted.
+         */
         const fetchLocationAcc = async () => {
             const fetchedLocation = await getLocationAccess();
             setAccess(fetchedLocation);
         };
+        /**
+         * Fetches the user's desired name from storage.
+         */
         const fetchName = async () => {
             const fetchedName = await getUserName();
             setOldName(fetchedName);
@@ -39,6 +53,10 @@ export default function Settings({ activeTheme }) {
         }
     }, [access]);
 
+    /**
+     * A function for handle to two types of closing the settings page: with or without saving.
+     * @param {boolean} save whether the user wants to save the changes or not.
+     */
     const handleClose = (save) => {
         if (save) {
             if (checkNameInput(newName)) {

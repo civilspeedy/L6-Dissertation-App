@@ -1,9 +1,17 @@
+/**
+ * @file Contains logic pertaining to http api requests with the webserver
+ * @module Api
+ */
 import axios from 'axios';
 import { getLocation, getUserName } from './Manipulation';
-
+/**
+ * An asynchronous function that sends a http request to the webserver on local-host and returns the response.
+ * @param {string} message the user's message
+ * @returns {string} the response from the webserver or an error message should a failure occur.
+ */
 export const sendMessage = async (message) => {
-    const name = await getUserName();
-    let location = await getLocation();
+    const name = getUserName();
+    let location = getLocation();
     if (location == null) {
         location = 'None';
     }

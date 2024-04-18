@@ -1,13 +1,21 @@
+/**
+ * @file The primary file used as the front page of the application. First code to run.
+ * @module App
+ */
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, StyleSheet, View } from 'react-native';
-import CustomTextInput from './Components/Text Input';
+import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { getTheme, getUserName, setTheme } from './Logic/Manipulation';
 import { impactAsync } from 'expo-haptics';
 import MessageDisplay from './Components/Message Display';
 import Settings from './Components/Settings';
 import StarterPage from './Components/Starter Page';
+
+/**
+ * The core component housing all others.
+ * @returns {View} The primary view component where all other components reside underneath.
+ */
 export default function App() {
     const colourJson = require('./assets/json/theme.json');
 
@@ -42,6 +50,9 @@ export default function App() {
         }
     }, [themeSate]);
 
+    /**
+     * Sanitises the user's message
+     */
     const handleMessageSend = () => {
         impactAsync();
         if (userInput.trim() == '') {
@@ -108,10 +119,10 @@ export default function App() {
                     styles.inputArea,
                     { borderColor: activeTheme.secondary },
                 ]}>
-                <CustomTextInput
-                    setUserInput={setInput}
-                    userInput={userInput}
-                    activeTheme={activeTheme}
+                <TextInput
+                    style={[styles.input, { color: activeTheme.secondary }]}
+                    value={userInput}
+                    onChangeText={setInput}
                 />
                 <Pressable
                     style={[
@@ -173,5 +184,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 20,
         flexDirection: 'row',
+    },
+    input: {
+        width: '75%',
+        flex: 1,
+        alignContent: 'center',
+        alignSelf: 'center',
+        height: '100%',
     },
 });
