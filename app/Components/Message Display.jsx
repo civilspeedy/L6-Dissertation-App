@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { sendMessage } from '../Logic/Api';
 import { useRef } from 'react';
-import Markdown from 'react-native-markdown-display';
+import Markdown from "react-native-markdown-display";
 /**
  * A react native component for displaying messages.
  * @param {boolean} send a boolean value denoting whether to send the user's message or not.

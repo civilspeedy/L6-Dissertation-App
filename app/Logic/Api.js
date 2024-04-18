@@ -17,7 +17,9 @@ export const sendMessage = async (message) => {
         location = 'None';
     }
     try {
-        const request = `http://127.0.0.1:5000/communicate?message=${message}&name=${name}&location=${location}`;
+        const localIP = 'http://127.0.0.1:5000'
+        const networkIP = 'http://192.168.4.95:5000'
+        const request = `http://192.168.4.95:5000/communicate?message=${message}&name=${name}&location=${location}`;
         const response = await axios.get(request);
         return response.data;
     } catch (e) {
