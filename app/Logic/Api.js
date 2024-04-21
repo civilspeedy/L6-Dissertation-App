@@ -4,7 +4,8 @@
  */
 import axios from 'axios';
 import { getLocation, getUserName } from './Manipulation';
-import { isNewChat } from '../App';
+
+let isNewChat = true;
 /**
  * An asynchronous function that sends a http request to the webserver on local-host and returns the response.
  * @param {string} message the user's message
@@ -18,13 +19,10 @@ export const sendMessage = async (message) => {
         location = 'None';
     }
     try {
-<<<<<<< Updated upstream
-        const localIP = 'http://127.0.0.1:5000'
-        const networkIP = 'http://192.168.4.95:5000'
-        const request = `http://192.168.4.95:5000/communicate?message=${message}&name=${name}&location=${location}`;
-=======
+        const localIP = 'http://127.0.0.1:5000';
+        const networkIP = 'http://192.168.4.95:5000';
+
         const request = `http://127.0.0.1:5000/communicate?message=${message}&name=${name}&location=${location}&chatStatus=${isNewChat}`;
->>>>>>> Stashed changes
         const response = await axios.get(request);
         isNewChat = false;
         return response.data;
