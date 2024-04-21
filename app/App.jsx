@@ -12,6 +12,8 @@ import MessageDisplay from './Components/Message Display';
 import Settings from './Components/Settings';
 import StarterPage from './Components/Starter Page';
 
+export let isNewChat = true;
+
 /**
  * The core component housing all others.
  * @returns {View} The primary view component where all other components reside underneath.
