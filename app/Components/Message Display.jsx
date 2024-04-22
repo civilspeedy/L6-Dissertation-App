@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { sendMessage } from '../Logic/Api';
 import { useRef } from 'react';
-import Markdown from "react-native-markdown-display";
+import Markdown from 'react-native-markdown-display';
 /**
  * A react native component for displaying messages.
  * @param {boolean} send a boolean value denoting whether to send the user's message or not.
@@ -28,7 +28,6 @@ export default function MessageDisplay({
     setUserInput,
 }) {
     const [displayStack, setDisplayStack] = useState([]);
-    const scrollRef = useRef(null);
 
     useEffect(() => {
         /**
@@ -49,6 +48,7 @@ export default function MessageDisplay({
                         source: 'speaker',
                     })
                 );
+                scrollRef.current.scrollToEnd({ animated: true });
             }
         };
 
@@ -61,13 +61,6 @@ export default function MessageDisplay({
             setUserInput('');
         }
     }, [send, userMessage, setSend, setUserInput]);
-
-    useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollToEnd({ animated: true });
-            scrollRef.current.scrollToEnd({ animated: true });
-        }
-    }, [displayStack]);
 
     /**
      * Appends a message component onto display stack.
@@ -112,20 +105,20 @@ export default function MessageDisplay({
             </View>
         );
     };
-
-    LayoutAnimation.spring();
     return (
         <View style={styles.container}>
             <ScrollView
                 style={styles.scrollView}
-                ref={scrollRef}>
-                <View>
+                ref={(ref) => {
+                    // fragment from https://stackoverflow.com/a/42736127
+                    this.scrollView = ref;
+                }}
+                onContentSizeChange={() =>
+                    this.scrollView.scrollToEnd({ animated: true })
+                }>
+                <View style={{ flex: 1 }}>
                     {displayStack.map((message, index) => (
-                        <View
-                            style={{ flex: 1 }}
-                            key={index}>
-                            {message}
-                        </View>
+                        <View key={index}>{message}</View>
                     ))}
                 </View>
             </ScrollView>

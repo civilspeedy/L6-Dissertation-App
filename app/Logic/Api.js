@@ -2,7 +2,7 @@
  * @file Contains logic pertaining to http api requests with the webserver
  * @module Api
  */
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { getLocation, getUserName } from './Manipulation';
 
 /**
@@ -27,17 +27,7 @@ export const sendMessage = async (message) => {
         const response = await axios.get(request);
         isNewChat = false;
         return response.data;
-    } catch (e) {
-        if (e.response.status === 403) {
-            const error_message =
-                'Sorry, failed to connect to the server, please try again later.';
-            return error_message;
-        }
-        if (e.response.status === 500) {
-            const error_message = 'Something has gone wrong, please try again.';
-            return error_message;
-        } else {
-            console.error('Err in sendMessage ', e);
-        }
+    } catch {
+        return 'Something has gone wrong, please try again.';
     }
 };

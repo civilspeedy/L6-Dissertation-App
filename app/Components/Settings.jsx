@@ -86,14 +86,18 @@ export default function Settings({ activeTheme }) {
                             styles.modalContent,
                             { backgroundColor: activeTheme.modalColour },
                         ]}>
-                        <Text>Current Name: {oldName}</Text>
-                        <Text style={{ marginBottom: 10 }}>Change Name: </Text>
+                        <Text style={styles.font}>Current Name: {oldName}</Text>
+                        <Text style={[styles.font, { marginBottom: 10 }]}>
+                            Change Name:{' '}
+                        </Text>
                         <NameEntry
                             name={newName}
                             setName={setNewName}
                         />
                         <View style={styles.locationView}>
-                            <Text>Allow Location Services: </Text>
+                            <Text style={styles.font}>
+                                Allow Location Services:{' '}
+                            </Text>
                             <Switch
                                 trackColor={{ true: 'lightgreen' }}
                                 onValueChange={setAccess}
@@ -108,9 +112,7 @@ export default function Settings({ activeTheme }) {
                                     styles.closeButtons,
                                     { backgroundColor: '#0CB8F3' },
                                 ]}>
-                                <Text style={{ textAlign: 'center' }}>
-                                    Confirm and Close
-                                </Text>
+                                <Text style={styles.font}>Save</Text>
                             </Pressable>
 
                             <Pressable
@@ -119,9 +121,7 @@ export default function Settings({ activeTheme }) {
                                     { backgroundColor: 'lightgrey' },
                                 ]}
                                 onPress={() => handleClose(false)}>
-                                <Text style={{ textAlign: 'center' }}>
-                                    Close Without Saving
-                                </Text>
+                                <Text style={styles.font}>Discard</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -186,5 +186,10 @@ const styles = StyleSheet.create({
     },
     buttonsView: {
         margin: 10,
+    },
+    font: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
