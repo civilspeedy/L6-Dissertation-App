@@ -86,6 +86,7 @@ export default function App() {
                 />
                 <Pressable
                     onPress={() => {
+                        impactAsync();
                         const newState = !themeSate;
                         setThemeState(newState);
                         setTheme(newState);

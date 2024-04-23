@@ -5,7 +5,6 @@
 import { useEffect, useState } from 'react';
 import {
     KeyboardAvoidingView,
-    LayoutAnimation,
     Platform,
     ScrollView,
     StyleSheet,
@@ -13,7 +12,6 @@ import {
     View,
 } from 'react-native';
 import { sendMessage } from '../Logic/Api';
-import { useRef } from 'react';
 import Markdown from 'react-native-markdown-display';
 import { impactAsync } from 'expo-haptics';
 /**

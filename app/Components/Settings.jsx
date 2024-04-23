@@ -7,12 +7,9 @@ import { Modal, Pressable, View, Text, StyleSheet, Switch } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Feather } from '@expo/vector-icons';
 import NameEntry, { checkNameInput } from './Name Entry';
-import {
-    getLocationAccess,
-    getUserName,
-    setLocationAccess,
-} from '../Logic/Manipulation';
+import { getLocationAccess, setLocationAccess } from '../Logic/Manipulation';
 import getLocationAndPerm from '../Logic/Location';
+import { impactAsync } from 'expo-haptics';
 
 /**
  * A modal for changing the user's desired name and location permission.
@@ -21,7 +18,6 @@ import getLocationAndPerm from '../Logic/Location';
  */
 export default function Settings({ activeTheme }) {
     const [state, setState] = useState(false);
-    const [oldName, setOldName] = useState('');
     const [newName, setNewName] = useState('');
     const [access, setAccess] = useState(false);
 
@@ -33,16 +29,8 @@ export default function Settings({ activeTheme }) {
             const fetchedLocation = await getLocationAccess();
             setAccess(fetchedLocation);
         };
-        /**
-         * Fetches the user's desired name from storage.
-         */
-        const fetchName = async () => {
-            const fetchedName = await getUserName();
-            setOldName(fetchedName);
-        };
 
         fetchLocationAcc();
-        fetchName();
     }, []);
 
     useEffect(() => {
@@ -86,7 +74,6 @@ export default function Settings({ activeTheme }) {
                             styles.modalContent,
                             { backgroundColor: activeTheme.modalColour },
                         ]}>
-                        <Text style={styles.font}>Current Name: {oldName}</Text>
                         <Text style={[styles.font, { marginBottom: 10 }]}>
                             Change Name:{' '}
                         </Text>
@@ -108,6 +95,7 @@ export default function Settings({ activeTheme }) {
                                 style={{
                                     marginLeft: 10,
                                 }}
+                                shouldRasterizeIOS={true}
                             />
                         </View>
                         <View style={styles.buttonsView}>
@@ -115,7 +103,7 @@ export default function Settings({ activeTheme }) {
                                 onPress={() => handleClose(true)}
                                 style={[
                                     styles.closeButtons,
-                                    { backgroundColor: '#0CB8F3' },
+                                    { backgroundColor: 'lightgreen' },
                                 ]}>
                                 <Text style={styles.font}>Save</Text>
                             </Pressable>
@@ -123,7 +111,7 @@ export default function Settings({ activeTheme }) {
                             <Pressable
                                 style={[
                                     styles.closeButtons,
-                                    { backgroundColor: 'lightgrey' },
+                                    { backgroundColor: 'salmon' },
                                 ]}
                                 onPress={() => handleClose(false)}>
                                 <Text style={styles.font}>Discard</Text>
@@ -137,7 +125,10 @@ export default function Settings({ activeTheme }) {
                     styles.button,
                     { backgroundColor: activeTheme.secondary },
                 ]}
-                onPress={() => setState(true)}>
+                onPress={() => {
+                    setState(true);
+                    impactAsync();
+                }}>
                 <Feather
                     name='settings'
                     size={50}
@@ -168,6 +159,7 @@ const styles = StyleSheet.create({
         padding: 20,
         marginBottom: 10,
         borderRadius: 50,
+        borderWidth: 3,
     },
     modalContent: {
         flex: 1,

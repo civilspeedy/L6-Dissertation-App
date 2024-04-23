@@ -2,7 +2,6 @@
  * @file Contains logic pertaining to http api requests with the webserver
  * @module Api
  */
-import axios, { AxiosError } from 'axios';
 import { getLocation, getUserName } from './Manipulation';
 
 /**
