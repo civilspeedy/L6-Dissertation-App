@@ -99,10 +99,15 @@ export default function Settings({ activeTheme }) {
                                 Allow Location Services:{' '}
                             </Text>
                             <Switch
-                                trackColor={{ true: 'lightgreen' }}
+                                trackColor={{
+                                    true: 'lightgreen',
+                                    false: 'red',
+                                }}
                                 onValueChange={setAccess}
                                 value={access}
-                                style={{ marginLeft: 10 }}
+                                style={{
+                                    marginLeft: 10,
+                                }}
                             />
                         </View>
                         <View style={styles.buttonsView}>

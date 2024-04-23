@@ -4,7 +4,9 @@
  */
 import { useEffect, useState } from 'react';
 import {
+    KeyboardAvoidingView,
     LayoutAnimation,
+    Platform,
     ScrollView,
     StyleSheet,
     Text,
@@ -13,6 +15,7 @@ import {
 import { sendMessage } from '../Logic/Api';
 import { useRef } from 'react';
 import Markdown from 'react-native-markdown-display';
+import { impactAsync } from 'expo-haptics';
 /**
  * A react native component for displaying messages.
  * @param {boolean} send a boolean value denoting whether to send the user's message or not.
@@ -89,6 +92,7 @@ export default function MessageDisplay({
             messageText = <Text style={styles.messageText}>{text}</Text>;
         }
         if (source == 'speaker') {
+            impactAsync();
             messageText = (
                 <View style={{ padding: 10 }}>
                     <Markdown>{text}</Markdown>
@@ -107,21 +111,24 @@ export default function MessageDisplay({
     };
     return (
         <View style={styles.container}>
-            <ScrollView
-                style={styles.scrollView}
-                ref={(ref) => {
-                    // fragment from https://stackoverflow.com/a/42736127
-                    this.scrollView = ref;
-                }}
-                onContentSizeChange={() =>
-                    this.scrollView.scrollToEnd({ animated: true })
-                }>
-                <View style={{ flex: 1 }}>
-                    {displayStack.map((message, index) => (
-                        <View key={index}>{message}</View>
-                    ))}
-                </View>
-            </ScrollView>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <ScrollView
+                    style={styles.scrollView}
+                    ref={(ref) => {
+                        // fragment from https://stackoverflow.com/a/42736127
+                        this.scrollView = ref;
+                    }}
+                    onContentSizeChange={() => {
+                        this.scrollView.scrollToEnd({ animated: true });
+                    }}>
+                    <View style={{ flex: 1 }}>
+                        {displayStack.map((message, index) => (
+                            <View key={index}>{message}</View>
+                        ))}
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </View>
     );
 }
