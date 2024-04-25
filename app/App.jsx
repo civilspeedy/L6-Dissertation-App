@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { getTheme, getUserName, setTheme } from './Logic/Manipulation';
 import { impactAsync } from 'expo-haptics';
+
 import MessageDisplay from './Components/Message Display';
 import Settings from './Components/Settings';
 import StarterPage from './Components/Starter Page';

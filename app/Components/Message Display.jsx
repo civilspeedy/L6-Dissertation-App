@@ -49,7 +49,6 @@ export default function MessageDisplay({
                         source: 'speaker',
                     })
                 );
-                scrollRef.current.scrollToEnd({ animated: true });
             }
         };
 
@@ -139,11 +138,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     messageContainer: {
-        padding: 20,
         borderRadius: 50,
         marginTop: 10,
         alignSelf: 'center',
-        maxWidth: '70%',
+        maxWidth: '80%',
         margin: 10,
     },
     scrollView: {

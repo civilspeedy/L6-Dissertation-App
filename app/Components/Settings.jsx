@@ -3,7 +3,16 @@
  * @module Settings
  */
 import { useEffect, useState } from 'react';
-import { Modal, Pressable, View, Text, StyleSheet, Switch } from 'react-native';
+import {
+    Modal,
+    Pressable,
+    View,
+    Text,
+    StyleSheet,
+    Switch,
+    KeyboardAvoidingView,
+    Platform,
+} from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Feather } from '@expo/vector-icons';
 import NameEntry, { checkNameInput } from './Name Entry';
@@ -69,57 +78,63 @@ export default function Settings({ activeTheme }) {
                     style={styles.blurView}
                     tint='systemThinMaterial'
                     intensity={80}>
-                    <View
-                        style={[
-                            styles.modalContent,
-                            { backgroundColor: activeTheme.modalColour },
-                        ]}>
-                        <Text style={[styles.font, { marginBottom: 10 }]}>
-                            Change Name:{' '}
-                        </Text>
-                        <NameEntry
-                            name={newName}
-                            setName={setNewName}
-                        />
-                        <View style={styles.locationView}>
-                            <Text style={styles.font}>
-                                Allow Location Services:{' '}
+                    <KeyboardAvoidingView
+                        behavior='height'
+                        style={{ flex: 1 }}
+                        keyboardVerticalOffset={20}>
+                        <View
+                            style={[
+                                styles.modalContent,
+                                { backgroundColor: activeTheme.modalColour },
+                            ]}>
+                            <Text style={[styles.font, { marginBottom: 10 }]}>
+                                Change Name:{' '}
                             </Text>
-                            <Switch
-                                trackColor={{
-                                    true: 'lightgreen',
-                                    false: 'red',
-                                }}
-                                onValueChange={setAccess}
-                                value={access}
-                                style={{
-                                    marginLeft: 10,
-                                }}
-                                shouldRasterizeIOS={true}
+                            <NameEntry
+                                name={newName}
+                                setName={setNewName}
                             />
-                        </View>
-                        <View style={styles.buttonsView}>
-                            <Pressable
-                                onPress={() => handleClose(true)}
-                                style={[
-                                    styles.closeButtons,
-                                    { backgroundColor: 'lightgreen' },
-                                ]}>
-                                <Text style={styles.font}>Save</Text>
-                            </Pressable>
+                            <View style={styles.locationView}>
+                                <Text style={styles.font}>
+                                    Allow Location Services:{' '}
+                                </Text>
+                                <Switch
+                                    trackColor={{
+                                        true: 'lightgreen',
+                                        false: 'red',
+                                    }}
+                                    onValueChange={setAccess}
+                                    value={access}
+                                    style={{
+                                        marginLeft: 10,
+                                    }}
+                                    shouldRasterizeIOS={true}
+                                />
+                            </View>
+                            <View style={styles.buttonsView}>
+                                <Pressable
+                                    onPress={() => handleClose(true)}
+                                    style={[
+                                        styles.closeButtons,
+                                        { backgroundColor: 'lightgreen' },
+                                    ]}>
+                                    <Text style={styles.font}>Save</Text>
+                                </Pressable>
 
-                            <Pressable
-                                style={[
-                                    styles.closeButtons,
-                                    { backgroundColor: 'salmon' },
-                                ]}
-                                onPress={() => handleClose(false)}>
-                                <Text style={styles.font}>Discard</Text>
-                            </Pressable>
+                                <Pressable
+                                    style={[
+                                        styles.closeButtons,
+                                        { backgroundColor: 'salmon' },
+                                    ]}
+                                    onPress={() => handleClose(false)}>
+                                    <Text style={styles.font}>Discard</Text>
+                                </Pressable>
+                            </View>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                 </BlurView>
             </Modal>
+
             <Pressable
                 style={[
                     styles.button,
@@ -162,12 +177,12 @@ const styles = StyleSheet.create({
         borderWidth: 3,
     },
     modalContent: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         alignContent: 'center',
+        marginTop: '40%',
         marginHorizontal: 20,
-        marginVertical: '60%',
+        height: '60%',
         borderRadius: 50,
     },
     textInput: {
