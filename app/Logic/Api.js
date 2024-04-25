@@ -3,6 +3,7 @@
  * @module Api
  */
 import { getLocation, getUserName } from './Manipulation';
+import axios from 'axios';
 
 /**
  * Used for context.
@@ -26,7 +27,8 @@ export const sendMessage = async (message) => {
         const response = await axios.get(request);
         isNewChat = false;
         return response.data;
-    } catch {
+    } catch (e) {
+        console.error('err in sendMessage', e);
         return 'Something has gone wrong, please try again.';
     }
 };

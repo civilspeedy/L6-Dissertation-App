@@ -89,7 +89,7 @@ export default function StarterPage({ activeTheme, state }) {
                                     checkNameInput(name);
                                     setDisplayState(true);
                                 }}>
-                                <Text>Submit Name</Text>
+                                <Text>Confirm</Text>
                             </Pressable>
                         </View>
                     )}
@@ -114,6 +114,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgreen',
         padding: 10,
         borderRadius: 50,
+        borderWidth: 3,
+        padding: 10,
     },
     modalContainer: {
         flex: 1,
