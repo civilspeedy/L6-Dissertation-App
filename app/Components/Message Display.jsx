@@ -92,7 +92,11 @@ export default function MessageDisplay({
             impactAsync();
             messageText = (
                 <View style={{ padding: 10 }}>
-                    <Markdown>{text}</Markdown>
+                    <Text style={styles.messageText}>
+                        <Markdown style={{ body: styles.messageText }}>
+                            {text}
+                        </Markdown>
+                    </Text>
                 </View>
             );
         } else {
@@ -110,21 +114,23 @@ export default function MessageDisplay({
         <View style={styles.container}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <ScrollView
-                    style={styles.scrollView}
-                    ref={(ref) => {
-                        // fragment from https://stackoverflow.com/a/42736127
-                        this.scrollView = ref;
-                    }}
-                    onContentSizeChange={() => {
-                        this.scrollView.scrollToEnd({ animated: true });
-                    }}>
-                    <View style={{ flex: 1 }}>
-                        {displayStack.map((message, index) => (
-                            <View key={index}>{message}</View>
-                        ))}
-                    </View>
-                </ScrollView>
+                <View style={{ flex: 1 }}>
+                    <ScrollView
+                        style={styles.scrollView}
+                        ref={(ref) => {
+                            // fragment from https://stackoverflow.com/a/42736127
+                            this.scrollView = ref;
+                        }}
+                        onContentSizeChange={() => {
+                            this.scrollView.scrollToEnd({ animated: true });
+                        }}>
+                        <View style={{ flex: 1 }}>
+                            {displayStack.map((message, index) => (
+                                <View key={index}>{message}</View>
+                            ))}
+                        </View>
+                    </ScrollView>
+                </View>
             </KeyboardAvoidingView>
         </View>
     );
@@ -139,7 +145,7 @@ const styles = StyleSheet.create({
     },
     messageContainer: {
         borderRadius: 50,
-        marginTop: 10,
+        padding: 10,
         alignSelf: 'center',
         maxWidth: '80%',
         margin: 10,
@@ -155,6 +161,6 @@ const styles = StyleSheet.create({
     },
     messageText: {
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 20,
     },
 });
