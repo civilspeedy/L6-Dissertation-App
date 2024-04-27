@@ -17,14 +17,12 @@ let isNewChat = true;
  */
 export const sendMessage = async (message) => {
     const name = await getUserName();
-    console.log(name);
     let location = await getLocation();
     if (location == null) {
         location = 'None';
     }
     const request = `http://127.0.0.1:5000/communicate?message=${message}&name=${name}&location=${location}&chatStatus=${isNewChat}`;
     try {
-        console.log('trying');
         const response = await axios.get(request);
         isNewChat = false;
         return response.data;

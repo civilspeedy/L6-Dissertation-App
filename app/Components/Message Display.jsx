@@ -37,7 +37,6 @@ export default function MessageDisplay({
          */
         const fetchSpeakerMessage = async () => {
             const fetchedMsg = await sendMessage(userMessage);
-            console.log('outside:', typeof fetchedMsg);
             if (typeof fetchedMsg === 'string') {
                 updateDisplayStack(
                     messageBubble({ message: fetchedMsg, source: 'error' })
@@ -80,9 +79,6 @@ export default function MessageDisplay({
         const text = message.message;
         let colour = '#F3470C';
         let messageText = null;
-
-        console.log(text);
-        console.log(source);
 
         if (source == 'user') {
             colour = '#0CB8F3';

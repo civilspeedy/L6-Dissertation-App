@@ -43,7 +43,6 @@ export default function Settings({ activeTheme }) {
     }, []);
 
     useEffect(() => {
-        console.log(access);
         setLocationAccess(access);
         if (access == true) {
             getLocationAndPerm();

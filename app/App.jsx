@@ -61,7 +61,6 @@ export default function App() {
         } else if (userInput.length >= 256) {
             Alert.alert('Message is too long.');
         } else {
-            console.log('characters: ', userInput.length);
             setSend(true);
         }
     };
