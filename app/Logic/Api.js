@@ -21,7 +21,7 @@ export const sendMessage = async (message) => {
     if (location == null) {
         location = 'None';
     }
-    const request = `http://127.0.0.1:5000/communicate?message=${message}&name=${name}&location=${location}&chatStatus=${isNewChat}`;
+    const request = `http://192.168.4.120:5000/communicate?message=${message}&name=${name}&location=${location}&chatStatus=${isNewChat}`;
     try {
         const response = await axios.get(request);
         isNewChat = false;

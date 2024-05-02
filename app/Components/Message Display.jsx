@@ -88,11 +88,7 @@ export default function MessageDisplay({
             impactAsync();
             messageText = (
                 <View style={{ padding: 10 }}>
-                    <Text style={styles.messageText}>
-                        <Markdown style={{ body: styles.messageText }}>
-                            {text}
-                        </Markdown>
-                    </Text>
+                    <Text style={styles.messageText}>{text}</Text>
                 </View>
             );
         } else {
