@@ -27,7 +27,6 @@ export const sendMessage = async (message) => {
         isNewChat = false;
         return response.data;
     } catch (e) {
-        console.error('err in sendMessage', e);
         return 'Something has gone wrong, please try again.';
     }
 };

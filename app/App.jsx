@@ -3,9 +3,16 @@
  * @module App
  */
 import { Feather } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import {
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    StyleSheet,
+    TextInput,
+    View,
+} from 'react-native';
 import { getTheme, getUserName, setTheme } from './Logic/Manipulation';
 import { impactAsync } from 'expo-haptics';
 
@@ -65,13 +72,21 @@ export default function App() {
         }
     };
 
+    if (Platform.OS === 'ios') {
+        () => setInputSize({ height: 100 });
+    }
+
     return (
         <View
             style={[
                 styles.container,
                 { backgroundColor: activeTheme.primary },
             ]}>
-            <StatusBar style='auto' />
+            <StarterPage
+                activeTheme={activeTheme}
+                state={askName}
+                setState={setAskName}
+            />
             <MessageDisplay
                 send={send}
                 setSend={setSend}
@@ -114,42 +129,48 @@ export default function App() {
                     )}
                 </Pressable>
             </View>
-
-            <View
-                style={[
-                    styles.inputArea,
-                    { borderColor: activeTheme.secondary },
-                ]}>
-                <TextInput
-                    style={[styles.input, { color: activeTheme.secondary }]}
-                    value={userInput}
-                    onChangeText={setInput}
-                />
-                <Pressable
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <View
                     style={[
-                        styles.sendButton,
-                        { backgroundColor: activeTheme.secondary },
-                    ]}
-                    onPress={() => handleMessageSend()}>
-                    <Feather
-                        name='send'
-                        size={35}
-                        color={activeTheme.primary}
+                        styles.inputArea,
+                        {
+                            borderColor: activeTheme.secondary,
+                            backgroundColor: activeTheme.primary,
+                        },
+                    ]}>
+                    <TextInput
+                        style={[
+                            styles.input,
+                            {
+                                color: activeTheme.secondary,
+                            },
+                        ]}
+                        value={userInput}
+                        onChangeText={setInput}
                     />
-                </Pressable>
-            </View>
-            <StarterPage
-                activeTheme={activeTheme}
-                state={askName}
-                setState={setAskName}
-            />
+                    <Pressable
+                        style={[
+                            styles.sendButton,
+                            { backgroundColor: activeTheme.secondary },
+                        ]}
+                        onPress={() => handleMessageSend()}>
+                        <Feather
+                            name='send'
+                            size={35}
+                            color={activeTheme.primary}
+                        />
+                    </Pressable>
+                </View>
+            </KeyboardAvoidingView>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        width: '100%',
+        height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -162,9 +183,8 @@ const styles = StyleSheet.create({
         margin: 20,
     },
     inputArea: {
-        position: 'absolute',
         bottom: 20,
-        flex: 1,
+        marginTop: 1,
         flexDirection: 'row',
         borderWidth: 3,
         borderRadius: 50,

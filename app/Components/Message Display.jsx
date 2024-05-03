@@ -109,7 +109,7 @@ export default function MessageDisplay({
         <View style={styles.container}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, margin: 1 }}>
                     <ScrollView
                         style={styles.scrollView}
                         ref={(ref) => {
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 2,
     },
     messageContainer: {
         borderRadius: 50,
@@ -147,8 +148,8 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         marginTop: '25%',
-        marginBottom: '23%',
         width: '100%',
+        marginBottom: 2,
     },
     innerView: {
         width: '100%',
