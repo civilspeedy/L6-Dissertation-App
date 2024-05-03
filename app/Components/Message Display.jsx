@@ -43,7 +43,6 @@ export default function MessageDisplay({
                 );
             } else {
                 const message = fetchedMsg[0].response;
-                sanitiseMessage(message);
                 updateDisplayStack(
                     messageBubble({
                         message: message,
@@ -69,10 +68,6 @@ export default function MessageDisplay({
      */
     const updateDisplayStack = (item) => {
         setDisplayStack((prevStack) => [...prevStack, item]);
-    };
-
-    const sanitiseMessage = (message) => {
-        console.log(message);
     };
 
     /**
