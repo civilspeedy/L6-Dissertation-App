@@ -42,9 +42,11 @@ export default function MessageDisplay({
                     messageBubble({ message: fetchedMsg, source: 'error' })
                 );
             } else {
+                const message = fetchedMsg[0].response;
+                sanitiseMessage(message);
                 updateDisplayStack(
                     messageBubble({
-                        message: fetchedMsg[0].response,
+                        message: message,
                         source: 'speaker',
                     })
                 );
@@ -69,6 +71,10 @@ export default function MessageDisplay({
         setDisplayStack((prevStack) => [...prevStack, item]);
     };
 
+    const sanitiseMessage = (message) => {
+        console.log(message);
+    };
+
     /**
      * A component for displaying a message from either the user, speaker (LM) or an error.
      * @param {string} message the message from either the user or speaker (LM)
@@ -88,7 +94,9 @@ export default function MessageDisplay({
             impactAsync();
             messageText = (
                 <View style={{ padding: 10 }}>
-                    <Text style={styles.messageText}>{text}</Text>
+                    <Markdown style={{ body: styles.messageText }}>
+                        {text}
+                    </Markdown>
                 </View>
             );
         } else {
