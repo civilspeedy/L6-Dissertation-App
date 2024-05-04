@@ -11,7 +11,6 @@ import {
     StyleSheet,
     Switch,
     KeyboardAvoidingView,
-    Platform,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Feather } from '@expo/vector-icons';
@@ -55,7 +54,9 @@ export default function Settings({ activeTheme }) {
      */
     const handleClose = (save) => {
         if (save) {
-            if (checkNameInput(newName)) {
+            if (newName == '') {
+                setState(false);
+            } else if (checkNameInput(newName)) {
                 setNewName('');
                 setState(false);
             } else {

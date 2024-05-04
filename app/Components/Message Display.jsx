@@ -43,6 +43,7 @@ export default function MessageDisplay({
                 );
             } else {
                 const message = fetchedMsg[0].response;
+                console.log(message);
                 updateDisplayStack(
                     messageBubble({
                         message: message,
@@ -78,6 +79,7 @@ export default function MessageDisplay({
     const messageBubble = (message) => {
         const source = message.source;
         const text = message.message;
+        console.log(text);
         let colour = '#F3470C';
         let messageText = null;
 
