@@ -43,7 +43,6 @@ export default function MessageDisplay({
                 );
             } else {
                 const message = fetchedMsg[0].response;
-                console.log(message);
                 updateDisplayStack(
                     messageBubble({
                         message: message,

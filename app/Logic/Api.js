@@ -24,7 +24,6 @@ export const sendMessage = async (message) => {
     const request = `http://192.168.4.120:5000/communicate?message=${message}&name=${name}&location=${location}&chatStatus=${isNewChat}`;
     try {
         const response = await axios.get(request);
-        console.log(response.data);
         isNewChat = false;
         if (response.data[0].response === null) {
             return "Couldn't process that, please try a different input.";
